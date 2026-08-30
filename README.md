@@ -25,7 +25,7 @@ All car data lives in **`lib/car.ts`**.
 - Identity, photos, snapshot chips
 - Spec lines (engine, mounts, cooling, chassis, interior, wheels) with part numbers
 - Ford’s work since purchase
-- Live issues / next-steps queue (order matters)
+- Live issues / date-code work order (order matters; ages computed to 2026-08-30)
 - Red Co setup sheet
 - Receipt timeline and open questions
 - Auto Sauce shop block
@@ -38,7 +38,7 @@ Pages only render that module. Change a spring rate or a part number in `lib/car
 | --- | --- |
 | `/` | Identity, hero photo, current snapshot, four live issues |
 | `/spec` | Current state — engine, chassis, interior, wheels/brakes, cooling, Ford’s work |
-| `/next` | Prioritized queue: mounts → clutch → exhaust → timing |
+| `/next` | Date-code work order: mounts → clutch → exhaust → timing, plus watch list |
 | `/history` | Scott’s 2016–2019 receipt trail, then Ford 2026. First name only. |
 | `/chassis` | Red Co setup sheet numbers |
 
