@@ -3,6 +3,34 @@
  * Update facts here — pages only render this module.
  */
 
+/** Ages on the work order are computed to this date. */
+export const asOfDate = "2026-08-30";
+
+export function ageLabel(installed: string, asOf: string = asOfDate): string {
+  const start = parseYmd(installed);
+  const end = parseYmd(asOf);
+  let months = (end.y - start.y) * 12 + (end.m - start.m);
+  if (end.d < start.d) months -= 1;
+  if (months < 0) months = 0;
+  const years = Math.floor(months / 12);
+  const rem = months % 12;
+  const y = years === 1 ? "1 year" : `${years} years`;
+  const mo = rem === 1 ? "1 month" : `${rem} months`;
+  if (years === 0) return `~${mo}`;
+  if (rem === 0) return `~${y}`;
+  return `~${y} ${mo}`;
+}
+
+function parseYmd(value: string): { y: number; m: number; d: number } {
+  const [y, m, d = "1"] = value.split("-");
+  return { y: Number(y), m: Number(m), d: Number(d) };
+}
+
+const mountsAge = ageLabel("2017-01-12");
+const hydraulicsAge = ageLabel("2018-12-29");
+const clutchLineAge = ageLabel("2016-06-27");
+const thermostatAge = ageLabel("2016-12");
+
 export type Photo = {
   id: string;
   src: string;
@@ -18,15 +46,48 @@ export type SpecLine = {
   part?: string;
 };
 
+export type Lane = "queue" | "watch" | "in-process";
+
 export type Issue = {
   id: string;
   priority: number;
   title: string;
   status: "open" | "in-process";
+  lane: "queue";
   summary: string;
+  symptom: string;
+  dateCode: string;
+  ageLabel: string;
+  dateNote: string;
   why: string;
   plan: string;
   related?: string[];
+};
+
+export type WatchItem = {
+  id: string;
+  title: string;
+  lane: "watch";
+  symptom: string;
+  dateCode: string;
+  ageLabel: string;
+  dateNote: string;
+  why: string;
+  plan: string;
+  related?: string[];
+};
+
+export type InProcessItem = {
+  id: string;
+  title: string;
+  status: "in-process";
+  lane: "in-process";
+  summary: string;
+  symptom: string;
+  dateCode: string;
+  ageLabel: string;
+  dateNote: string;
+  plan: string;
 };
 
 export type TimelineEntry = {
@@ -115,7 +176,7 @@ export const car = {
     { label: "Tires", value: "Toyo R888R" },
     { label: "Timing", value: "8° BTDC (want 10°)" },
     { label: "Driver seat", value: "Kirkey → Sparco" },
-    { label: "Mounts", value: "2017 Comp, worn" },
+    { label: "Mounts", value: `2017 Comp, ${mountsAge}` },
     { label: "Exhaust", value: "Header + open back" },
   ],
 
@@ -181,7 +242,7 @@ export const car = {
       {
         label: "Thermostat",
         value: "Mishimoto 155°F",
-        note: "5X, 2016-12, with seals/gaskets.",
+        note: `5X, 2016-12, with OEM seals/gaskets. ${thermostatAge}. No cooling symptom — watch list only.`,
       },
       {
         label: "Hoses",
@@ -199,7 +260,7 @@ export const car = {
         label: "What’s on the car",
         value: "Mazda Competition, pair bought Jan 2017",
         part: "NAY1-39-040 / FM 04-70155",
-        note: "75A rubber. About 40% stiffer than stock 55A when new. Nine years old — likely sagged.",
+        note: `75A rubber. About 40% stiffer than stock 55A when new. ${mountsAge} — likely sagged or torn.`,
       },
       {
         label: "Not these",
@@ -300,7 +361,7 @@ export const car = {
       {
         label: "Tires",
         value: "Toyo Proxes R888R (new)",
-        note: "Ford, 2026. Chirp out of first is louder on fresh R-comps.",
+        note: "Ford, new 2026. Amplify the 1st-gear chirp; they are not the cause.",
       },
       {
         label: "Pads",
@@ -341,16 +402,34 @@ export const car = {
     },
   },
 
+  workOrder: {
+    asOf: asOfDate,
+    asOfLabel: "Sunday 2026-08-30",
+    kicker: "Work order",
+    title: "Suggested next steps",
+    intro: [
+      "This is not a shopping list. The order comes from receipt date codes plus what the car is doing right now. Ages are computed to Sunday 2026-08-30.",
+      "Worn 2017 Comp mounts rock the engine. That rock is the shifter shake on clutch crawl and part of the 1st-gear shudder the new R888Rs make louder. The Springfield Dyno header-back is a track pipe with no muffler. Timing is Ford’s unfinished 8° BTDC set — factory is 10°, do not overshoot.",
+      "Mounts first. Re-evaluate the clutch after the engine stops rocking. Quiet the exhaust. Finish timing with Auto Sauce so nobody double-advances the CAS.",
+    ],
+  },
+
   issues: [
     {
       id: "mounts",
       priority: 1,
       title: "Engine mounts",
       status: "open",
-      summary:
-        "2017 Mazda Comp mounts are nine years old and likely sagged. Shifter shake on clutch crawl, plus some clutch shudder from engine rock.",
-      why: "Worn 75A Comp rubber lets the engine move. That rock shows up as shifter shake and feeds the 1st-gear shudder. Fix the mounts before chasing the disc.",
-      plan: "Replace with a fresh pair of the same Mazda Comp mounts — NAY1-39-040 (FM 04-70155). Not poly. Not Innovative. Not Mazdaspeed turbo OEM.",
+      lane: "queue",
+      summary: `Mazda Comp pair, ${mountsAge}. Engine rock on clutch crawl — part of the 1st-gear shudder. Fresh Comp pair, not poly.`,
+      symptom:
+        "Shifter shake when crawling on the clutch. The G-Racing short shifter is new; the shake is engine rock, not the shifter. Same rock is part of the clutch shudder out of 1st.",
+      dateCode: "Jan 12 and Jan 20, 2017 · NAY1-39-040 / FM 04-70155",
+      ageLabel: mountsAge,
+      dateNote:
+        "Pair bought Jan 12 and Jan 20, 2017 (previous-owner receipts). 75A rubber, about 40% stiffer than stock 55A when new. Genuine Mazda Motorsports Comp mounts — not Mazdaspeed turbo OEM, not poly, not Innovative. Likely sagged or torn.",
+      why: `Age (${mountsAge}) plus the rock you can feel in the shifter. Tired 75A Comp rubber lets the engine move. That motion shows up as shake on clutch crawl and feeds the 1st-gear shudder. Fix the mounts before chasing the disc.`,
+      plan: "Replace with a fresh pair of the same Mazda Comp mounts — NAY1-39-040 (FM 04-70155). Do not go poly. Do not use Innovative. Do not use Mazdaspeed turbo OEM. Inspect the 2016 clutch line while the mounts are out.",
       related: ["NAY1-39-040", "FM 04-70155"],
     },
     {
@@ -358,10 +437,16 @@ export const car = {
       priority: 2,
       title: "Clutch shudder out of 1st",
       status: "open",
+      lane: "queue",
       summary:
-        "Sounds like tire squeal unless the pedal is released slowly. New R888Rs amplify the chirp.",
-      why: "Engine rock from tired mounts and a sticky 1st-gear take-up stack. Fresh R-comps make the chirp louder. Hydraulics are not the first suspect.",
-      plan: "After the mounts, evaluate the disc. Hydraulics were replaced 2018 — Fairbanks master NA01-41-400A, slave NA01-41-920C, plus the 2016 5X extended clutch line.",
+        "Chirp like tire squeal unless the pedal comes up slowly. New R888Rs make it louder. Re-evaluate after the mounts.",
+      symptom:
+        "Clutch shudder out of 1st that sounds like tire squeal unless the pedal is released slowly. New Toyo R888Rs make the chirp louder. Hawk Blues are also new 2026 — they amplify; they are not the cause.",
+      dateCode: "Cory Fairbanks Mazda invoice 84135 · 2018-12-29",
+      ageLabel: hydraulicsAge,
+      dateNote: `Master NA01-41-400A + slave NA01-41-920C + two oil seals, invoice 84135, 2018-12-29. Hydraulics are ${hydraulicsAge} and still reasonable. Disc is unknown. Extended clutch line is a separate 2016 watch item — inspect during the mount job, do not replace on speculation.`,
+      why: "Engine rock from the tired mounts is the first suspect. Hydraulics from 2018 are not. Fresh R-comps make a chirp louder; they did not create it. Do not throw a clutch kit first.",
+      plan: "After the engine stops rocking, re-evaluate take-up. If the shudder is still there, then look at the disc. Leave the 2018 master/slave unless a hydraulic symptom shows.",
       related: ["NA01-41-400A", "NA01-41-920C"],
     },
     {
@@ -369,9 +454,16 @@ export const car = {
       priority: 3,
       title: "Exhaust too loud",
       status: "open",
+      lane: "queue",
       summary:
-        "Wrapped header + Springfield Dyno header-back. Fine for a track day. Not fine for a neighborhood.",
-      why: "Club-sport means the car has to leave the house without being a nuisance. Keep the header. Quiet the rest.",
+        "Wrapped header + Springfield Dyno header-back, no muffler. Too loud for club-sport / neighborhood.",
+      symptom:
+        "Exhaust is too loud for club-sport and the neighborhood. Wrapped header + Springfield Dyno header-back, no muffler or resonator.",
+      dateCode: "Track pipe — conversion item, not a date code",
+      ageLabel: "Not an age job",
+      dateNote:
+        "Loudness is the open header-back, not a worn part. Keep the wrapped header. Quiet the rest.",
+      why: "Club-sport means the car has to leave the house without being a nuisance. This is a conversion item, not a receipt-age failure.",
       plan: "Keep the wrapped header. Add a muffler and a resonator. Shop: Auto Sauce Performance, 820 Creative Dr #1, Lakeland, 863-247-6345.",
       related: ["Auto Sauce Performance"],
     },
@@ -380,10 +472,17 @@ export const car = {
       priority: 4,
       title: "Timing 8° → 10° BTDC",
       status: "open",
+      lane: "queue",
       summary:
-        "Moved from 2° ATDC to 8° BTDC. Factory is 10° BTDC. Finish it with a CAS and a light.",
-      why: "Still a degree short of stock. Easy to overshoot if a shop advances it again on the dyno.",
-      plan: "Set factory 10° BTDC via CAS + timing light. Coordinate with Auto Sauce so their tune does not get double-advanced.",
+        "Ford moved it from 2° ATDC to 8° BTDC. Factory is 10°. Finish it — do not overshoot.",
+      symptom:
+        "Timing is currently 8° BTDC after Ford moved it from 2° ATDC. Factory is 10° BTDC. Unfinished 2026 adjustment.",
+      dateCode: "Ford, 2026 — unfinished set",
+      ageLabel: "This year’s adjustment",
+      dateNote:
+        "Ford’s 2026 timing move, not a receipt from the previous owner. Still one degree short of stock.",
+      why: "Finish the set. Easy to overshoot if a shop advances it again on the dyno.",
+      plan: "Set factory 10° BTDC with a CAS and a timing light. Coordinate with Auto Sauce so they do not double-advance it.",
       related: ["CAS", "Auto Sauce Performance"],
     },
   ] satisfies Issue[],
@@ -392,9 +491,63 @@ export const car = {
     id: "driver-seat",
     title: "Driver Sparco Sprint + frame rail",
     status: "in-process" as const,
+    lane: "in-process" as const,
     summary:
       "Passenger already has a Sparco Sprint and harness. Driver is still a Kirkey, which is being sold. Replacement is a second Sprint on a frame rail.",
-  },
+    symptom:
+      "Not a diagnosis. Passenger already has a Sprint + harness. Driver is still the Kirkey.",
+    dateCode: "Ford, 2026",
+    ageLabel: "In process",
+    dateNote:
+      "Seat swap is underway. It is not ranked against the receipt-age jobs.",
+    plan: "Sell the Kirkey. Fit a driver Sparco Sprint on a frame rail.",
+  } satisfies InProcessItem,
+
+  watch: [
+    {
+      id: "thermostat",
+      title: "Mishimoto 155°F thermostat",
+      lane: "watch",
+      symptom:
+        "None. No cooling complaint. Ford added a manual radiator fan switch in 2026.",
+      dateCode: "5X Racing, 2016-12 · MMTS-MIA-90 + OEM seals",
+      ageLabel: thermostatAge,
+      dateNote: `Bought 2016-12 with seals/gaskets. ${thermostatAge}. Age alone is not a reason to pull it.`,
+      why: "Old, but the car is not overheating. Watch list until a cooling symptom shows.",
+      plan: "Leave it. Watch temps. The 2026 manual fan switch is already on the car.",
+      related: ["MMTS-MIA-90"],
+    },
+    {
+      id: "clutch-line",
+      title: "Extended black clutch line",
+      lane: "watch",
+      symptom: "No hydraulic complaint tied to the line.",
+      dateCode: "5X Racing order 2122679 · 2016-06-27",
+      ageLabel: clutchLineAge,
+      dateNote: `${clutchLineAge}. Still on the car. Hydraulics as a system are not the first shudder suspect.`,
+      why: "Long in the tooth, but do not replace on speculation. The 2018 master/slave are the newer half of the hydraulic circuit.",
+      plan: "Inspect when the Comp mounts come out. Replace only if the line is weeping, swollen, or crusted.",
+      related: ["5X 2122679"],
+    },
+  ] satisfies WatchItem[],
+
+  datedQuiet: [
+    {
+      title: "Engine swap day",
+      dateCode: "2016-11-11",
+      note: "2002/01–05 short block + 1999 head/intake. No current leak or overheat complaint tied to the swap.",
+    },
+    {
+      title: "ARP head studs",
+      dateCode: "Jan 2017 · FM 04-66205 / ARP 218-4701",
+      note: "Installed with the Comp-mount era. No leak complaint.",
+    },
+    {
+      title: "FM dual-feed rail",
+      dateCode: "May 2017 · FM 04-46550",
+      note: "No current leak complaint tied to the rail.",
+    },
+  ],
 
   chassisSetup: {
     shop: "Red Co",
@@ -493,7 +646,7 @@ export const car = {
       sort: "2016-06",
       era: "scott",
       title: "5X extended clutch line",
-      detail: "Still on the car. Comes up again when the 1st-gear shudder is evaluated.",
+      detail: `Order 2122679, 2016-06-27. Still on the car, ${clutchLineAge}. Inspect when the mounts come out — do not replace on speculation.`,
       source: "receipt",
     },
     {
@@ -510,7 +663,7 @@ export const car = {
       sort: "2016-12",
       era: "scott",
       title: "5X Mishimoto 155°F thermostat",
-      detail: "Thermostat plus seals and gaskets.",
+      detail: `MMTS-MIA-90 plus OEM seals and gaskets. ${thermostatAge}. No cooling symptom — watch list only.`,
       source: "receipt",
     },
     {
@@ -519,7 +672,7 @@ export const car = {
       era: "scott",
       title: "ARP studs, crank tool, Comp mounts",
       detail:
-        "Flyin’ Miata ARP head studs, crank tool, and the first Mazda Comp mount. Second Comp mount eight days later. Those are the mounts still in the car — nine years on.",
+        `Flyin’ Miata ARP head studs, crank tool, and the first Mazda Comp mount (Jan 12). Second Comp mount Jan 20. Those are the mounts still in the car — ${mountsAge}.`,
       source: "receipt",
     },
     {
@@ -551,7 +704,7 @@ export const car = {
       sort: "2018-12",
       era: "scott",
       title: "Fairbanks clutch master / slave",
-      detail: "Master NA01-41-400A, slave NA01-41-920C. Hydraulics are the 2018 set.",
+      detail: `Cory Fairbanks Mazda invoice 84135, 2018-12-29. Master NA01-41-400A, slave NA01-41-920C, two oil seals. Hydraulics are ${hydraulicsAge} — not the first shudder suspect.`,
       source: "receipt",
     },
     {

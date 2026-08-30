@@ -25,6 +25,9 @@ export function IssueCard({
         <h3 className="font-sans text-2xl font-medium tracking-tight text-paper uppercase">
           {issue.title}
         </h3>
+        <p className="mt-1 text-[11px] tracking-[0.12em] text-red uppercase">
+          {issue.ageLabel}
+        </p>
         <p className="mt-2 text-[13px] leading-relaxed text-cream/85">
           {issue.summary}
         </p>

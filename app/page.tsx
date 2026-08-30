@@ -67,7 +67,7 @@ export default function HomePage() {
             href="/next"
             className="text-[11px] tracking-[0.16em] text-red uppercase no-underline hover:text-paper"
           >
-            Why, in order →
+            Work order →
           </Link>
         </div>
         <div className="grid gap-4 md:grid-cols-2">
