@@ -361,7 +361,7 @@ export const car = {
       {
         label: "Tires",
         value: "Toyo Proxes R888R (new)",
-        note: "Ford, new 2026. Amplify the 1st-gear chirp; they are not the cause.",
+        note: "Ford, new 2026.",
       },
       {
         label: "Pads",
@@ -409,7 +409,7 @@ export const car = {
     title: "Suggested next steps",
     intro: [
       "This is not a shopping list. The order comes from receipt date codes plus what the car is doing right now. Ages are computed to Sunday 2026-08-30.",
-      "Worn 2017 Comp mounts rock the engine. That rock is the shifter shake on clutch crawl and part of the 1st-gear shudder the new R888Rs make louder. The Springfield Dyno header-back is a track pipe with no muffler. Timing is Ford’s unfinished 8° BTDC set — factory is 10°, do not overshoot.",
+      "Worn 2017 Comp mounts rock the engine. That rock is the shifter shake on clutch crawl and part of the 1st-gear shudder — clutch take-up plus engine rock. The sound is like tire squeal; that is the noise, not a tire diagnosis. The Springfield Dyno header-back is a track pipe with no muffler. Timing is Ford’s unfinished 8° BTDC set — factory is 10°, do not overshoot.",
       "Mounts first. Re-evaluate the clutch after the engine stops rocking. Quiet the exhaust. Finish timing with Auto Sauce so nobody double-advances the CAS.",
     ],
   },
@@ -439,13 +439,13 @@ export const car = {
       status: "open",
       lane: "queue",
       summary:
-        "Chirp like tire squeal unless the pedal comes up slowly. New R888Rs make it louder. Re-evaluate after the mounts.",
+        "Sounds like tire squeal unless the pedal comes up slowly. Clutch take-up plus engine rock from the worn Comp mounts. Re-evaluate after the mounts.",
       symptom:
-        "Clutch shudder out of 1st that sounds like tire squeal unless the pedal is released slowly. New Toyo R888Rs make the chirp louder. Hawk Blues are also new 2026 — they amplify; they are not the cause.",
+        "Clutch shudder out of 1st that sounds like tire squeal unless the pedal is released slowly. That is a description of the noise, not a tire diagnosis. The shudder is clutch take-up and engine rock from the worn Comp mounts.",
       dateCode: "Cory Fairbanks Mazda invoice 84135 · 2018-12-29",
       ageLabel: hydraulicsAge,
       dateNote: `Master NA01-41-400A + slave NA01-41-920C + two oil seals, invoice 84135, 2018-12-29. Hydraulics are ${hydraulicsAge} and still reasonable. Disc is unknown. Extended clutch line is a separate 2016 watch item — inspect during the mount job, do not replace on speculation.`,
-      why: "Engine rock from the tired mounts is the first suspect. Hydraulics from 2018 are not. Fresh R-comps make a chirp louder; they did not create it. Do not throw a clutch kit first.",
+      why: "Clutch take-up plus engine rock from the tired Comp mounts. Hydraulics from 2018 are not the first suspect. Do not throw a clutch kit first.",
       plan: "After the engine stops rocking, re-evaluate take-up. If the shudder is still there, then look at the disc. Leave the 2018 master/slave unless a hydraulic symptom shows.",
       related: ["NA01-41-400A", "NA01-41-920C"],
     },
