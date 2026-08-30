@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+:root {
+  --shop: #0b0b0c;
+  --shop-2: #121214;
+  --steel: #1c1c1f;
+  --rule: #2c2c30;
+  --muted: #8a8478;
+  --paper: #e6dfd2;
+  --cream: #d9c9a3;
+  --red: #c4162a;
+  --red-dim: #8a1020;
+  --background: var(--shop);
+  --foreground: var(--paper);
+}
+
+@theme inline {
+  --color-shop: var(--shop);
+  --color-shop-2: var(--shop-2);
+  --color-steel: var(--steel);
+  --color-rule: var(--rule);
+  --color-muted: var(--muted);
+  --color-paper: var(--paper);
+  --color-cream: var(--cream);
+  --color-red: var(--red);
+  --color-red-dim: var(--red-dim);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+html {
+  background: var(--shop);
+  color: var(--paper);
+}
+
+body {
+  min-height: 100%;
+  background-color: var(--shop);
+  background-image:
+    linear-gradient(rgba(196, 22, 42, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196, 22, 42, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+  color: var(--paper);
+  font-family: var(--font-plex), "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.font-sans,
+.font-sans * {
+  font-family: var(--font-condensed), "Barlow Condensed", "Arial Narrow", sans-serif;
+}
+
+::selection {
+  background: var(--red);
+  color: var(--paper);
+}
+
+a {
+  color: inherit;
+}
+
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--red);
+  color: var(--red);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.45rem;
+}
+
+.hairline {
+  height: 1px;
+  background: var(--rule);
+}
+
+.red-rule {
+  height: 2px;
+  background: var(--red);
+  width: 3.5rem;
+}
