@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Barlow_Condensed, IBM_Plex_Mono } from "next/font/google";
-import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { car } from "@/lib/car";
 import "./globals.css";
@@ -41,11 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               door {car.identity.doorNumber} · living build log
             </p>
             <p className="tracking-[0.14em] uppercase">
-              Facts live in{" "}
-              <Link href="/spec" className="text-cream underline-offset-2 hover:text-paper">
-                lib/car.ts
-              </Link>
-              . Update there, not in the JSX.
+              Public log · no account · no database
             </p>
           </div>
         </footer>

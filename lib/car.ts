@@ -575,7 +575,7 @@ export const car = {
 
   omitted: [
     "Previous-owner contact details (phone, email, street address, card numbers) stay off this log.",
-    "A 2023 RockAuto alternator packing list shipped to Kurt Roll in Apollo Beach is unverified and is not listed as a part on this car.",
+    "A 2023 RockAuto alternator packing list is unverified and is not listed as a part on this car.",
   ],
 
   openQuestions: [
