@@ -136,7 +136,7 @@ export const car = {
       id: "car-1",
       src: "/photos/car-1.jpg",
       alt: "1995 Classic Red NA Miata #17, three-quarter front, black flares, cream Traklite wheels",
-      caption: "Driver’s side three-quarter. Door 17, flares, Sparco visible, black top up.",
+      caption: "Passenger-side three-quarter. Door 17, flares, Sparco visible, black top up.",
       aspect: "4 / 3",
     },
     side: {
@@ -144,7 +144,7 @@ export const car = {
       src: "/photos/car-2.jpg",
       alt: "Side profile of the Classic Red NA Miata #17 in front of a shop",
       caption: "Side profile. Club-sport stance, not a show car.",
-      aspect: "16 / 9",
+      aspect: "4 / 3",
     },
     rear: {
       id: "car-3",
@@ -165,7 +165,7 @@ export const car = {
       src: "/photos/engine-2.jpg",
       alt: "Engine bay detail showing 1999 intake, wrapped header, and red Classic Red painted bay",
       caption: "Same bay, tighter. 1999 intake, heat-wrapped header, red firewall.",
-      aspect: "3 / 4",
+      aspect: "4 / 3",
     },
   } satisfies Record<string, Photo>,
 
