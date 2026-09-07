@@ -4,7 +4,7 @@ import { Photo } from "@/components/Photo";
 import { car } from "@/lib/car";
 
 export default function HomePage() {
-  const { identity, photos, snapshot, issues, inProcess } = car;
+  const { identity, photos, snapshot, issues, lookGoals } = car;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 md:px-6 md:py-14">
@@ -75,13 +75,27 @@ export default function HomePage() {
             <IssueCard key={issue.id} issue={issue} />
           ))}
         </div>
-        <p className="mt-4 border border-dashed border-rule px-4 py-3 text-[13px] text-cream">
-          <span className="tracking-[0.14em] text-red uppercase">
-            Also in process
-          </span>
-          {" — "}
-          {inProcess.title}. {inProcess.summary}
+      </section>
+
+      <section className="mt-14">
+        <h2 className="font-sans text-2xl tracking-[0.12em] uppercase">
+          Look goals
+        </h2>
+        <p className="mt-3 max-w-xl text-[14px] leading-relaxed text-cream">
+          {lookGoals.tagline}
         </p>
+        <ul className="mt-5 grid gap-px border border-rule bg-rule sm:grid-cols-3">
+          {lookGoals.items.map((goal) => (
+            <li key={goal.id} className="bg-shop-2/80 px-4 py-4">
+              <p className="text-[10px] tracking-[0.16em] text-red uppercase">
+                {goal.title}
+              </p>
+              <p className="mt-2 text-[13px] leading-relaxed text-paper">
+                {goal.detail}
+              </p>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section className="mt-14 grid gap-6 md:grid-cols-3">

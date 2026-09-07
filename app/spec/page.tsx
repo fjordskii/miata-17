@@ -6,11 +6,11 @@ import { car } from "@/lib/car";
 
 export const metadata: Metadata = {
   title: "Current spec",
-  description: `What’s on ${car.identity.owner}'s ${car.identity.year} NA #${car.identity.doorNumber} right now — engine, chassis, interior, wheels, cooling.`,
+  description: `What’s on ${car.identity.owner}'s ${car.identity.year} NA #${car.identity.doorNumber} right now — engine, chassis, interior, steering, wheels, cooling.`,
 };
 
 export default function SpecPage() {
-  const { spec, fordsWork, photos, identity } = car;
+  const { spec, fordsWork, lookGoals, photos, identity } = car;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 md:px-6 md:py-14">
@@ -29,6 +29,7 @@ export default function SpecPage() {
           <SpecTable title="Cooling" lines={spec.cooling} />
           <SpecTable title="Chassis" lines={spec.chassis} />
           <SpecTable title="Interior" lines={spec.interior} />
+          <SpecTable title="Steering" lines={spec.steering} />
           <SpecTable title="Wheels / brakes" lines={spec.wheels} />
         </div>
 
@@ -51,13 +52,16 @@ export default function SpecPage() {
             </ol>
             <div className="border-t border-rule px-4 py-3">
               <p className="text-[10px] tracking-[0.16em] text-muted uppercase">
-                In process
+                Look goals
               </p>
-              <ul className="mt-2 space-y-2 text-[13px] text-cream">
-                {fordsWork.inProcess.map((item) => (
-                  <li key={item}>
+              <p className="mt-2 text-[12px] leading-relaxed text-cream">
+                {lookGoals.tagline}
+              </p>
+              <ul className="mt-3 space-y-2 text-[13px] text-cream">
+                {lookGoals.items.map((goal) => (
+                  <li key={goal.id}>
                     <span className="mr-2 text-red">▢</span>
-                    {item}
+                    {goal.title}
                   </li>
                 ))}
               </ul>

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function NextPage() {
-  const { workOrder, issues, inProcess, watch, datedQuiet, shops } = car;
+  const { workOrder, issues, lookGoals, watch, datedQuiet, shops } = car;
   const shop = shops.autoSauce;
 
   return (
@@ -94,18 +94,22 @@ export default function NextPage() {
       </ol>
 
       <section
-        id={inProcess.id}
+        id="look-goals"
         className="mt-8 scroll-mt-24 border border-dashed border-rule px-5 py-5"
       >
         <p className="text-[10px] tracking-[0.18em] text-red uppercase">
-          Also in process · {inProcess.ageLabel}
+          Look goals · not the work order
         </p>
-        <h2 className="mt-2 font-sans text-2xl uppercase">{inProcess.title}</h2>
-        <p className="mt-2 text-[13px] text-cream">{inProcess.symptom}</p>
-        <p className="mt-2 text-[12px] text-muted">
-          {inProcess.dateCode}. {inProcess.dateNote}
-        </p>
-        <p className="mt-3 text-[13px] leading-relaxed">{inProcess.plan}</p>
+        <h2 className="mt-2 font-sans text-2xl uppercase">Club-sport look</h2>
+        <p className="mt-2 text-[13px] text-cream">{lookGoals.tagline}</p>
+        <ul className="mt-4 space-y-3">
+          {lookGoals.items.map((goal) => (
+            <li key={goal.id}>
+              <p className="text-[13px] text-paper">{goal.title}</p>
+              <p className="text-[12px] text-muted">{goal.detail}</p>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section id="watch" className="mt-8 scroll-mt-24">
