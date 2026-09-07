@@ -1,6 +1,6 @@
 # NA 17
 
-Living build log for Ford Heacock’s **1995 Mazda Miata (NA)**, door number 17. Classic Red, black soft top, black bolt-on flares, cream mesh Traklite wheels. Track car becoming a club-sport car — weekend street, still track.
+Living build log for Ford Heacock’s **1995 Mazda Miata (NA)**, door number 17. Classic Red, black soft top, black bolt-on flares, cream mesh Traklite wheels. Twin Sparco Sprints on PCI mounts, NRG wheel + QR, door glass out. Track car becoming a club-sport car — weekend street, still track. Look goals: paint-matched flares, red hardtop, better wheels.
 
 Public Next.js App Router site. No auth. No database. Facts are static.
 
@@ -23,8 +23,9 @@ npm start
 All car data lives in **`lib/car.ts`**.
 
 - Identity, photos, snapshot chips
-- Spec lines (engine, mounts, cooling, chassis, interior, wheels) with part numbers
+- Spec lines (engine, mounts, cooling, chassis, interior, steering, wheels) with part numbers
 - Ford’s work since purchase
+- Club-sport look goals (painted flares, hardtop, wheels)
 - Live issues / date-code work order (order matters; ages computed to 2026-08-30)
 - Red Co setup sheet
 - Receipt timeline and open questions
@@ -36,9 +37,9 @@ Pages only render that module. Change a spring rate or a part number in `lib/car
 
 | Path | What it is |
 | --- | --- |
-| `/` | Identity, hero photo, current snapshot, four live issues |
-| `/spec` | Current state — engine, chassis, interior, wheels/brakes, cooling, Ford’s work |
-| `/next` | Date-code work order: mounts → clutch → exhaust → timing, plus watch list |
+| `/` | Identity, hero photo, current snapshot, four live issues, look goals |
+| `/spec` | Current state — engine, chassis, interior, steering, wheels/brakes, cooling, Ford’s work |
+| `/next` | Date-code work order: mounts → clutch → exhaust → timing, plus look goals and watch list |
 | `/history` | Scott’s 2016–2019 receipt trail, then Ford 2026. First name only. |
 | `/chassis` | Red Co setup sheet numbers |
 

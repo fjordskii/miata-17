@@ -77,17 +77,10 @@ export type WatchItem = {
   related?: string[];
 };
 
-export type InProcessItem = {
+export type LookGoal = {
   id: string;
   title: string;
-  status: "in-process";
-  lane: "in-process";
-  summary: string;
-  symptom: string;
-  dateCode: string;
-  ageLabel: string;
-  dateNote: string;
-  plan: string;
+  detail: string;
 };
 
 export type TimelineEntry = {
@@ -175,7 +168,9 @@ export const car = {
     { label: "Springs", value: "800 F / 350 R" },
     { label: "Tires", value: "Toyo R888R" },
     { label: "Timing", value: "8° BTDC (want 10°)" },
-    { label: "Driver seat", value: "Kirkey → Sparco" },
+    { label: "Seats", value: "Twin Sparco Sprint / PCI" },
+    { label: "Steering", value: "NRG 3-spoke + QR" },
+    { label: "Glass", value: "Door glass out" },
     { label: "Mounts", value: `2017 Comp, ${mountsAge}` },
     { label: "Exhaust", value: "Header + open back" },
   ],
@@ -210,9 +205,9 @@ export const car = {
       },
       {
         label: "Fuel pump",
-        value: "AEM E85",
+        value: "AEM 50-1200",
         part: "AEM 50-1200",
-        note: "Summit, 2019-04. Fuel in the tank is still an open question — E85 vs pump gas.",
+        note: "Summit, 2019-04. Do not treat the car as E85-capable. Confirm what is in the tank before any Auto Sauce tune.",
       },
       {
         label: "Header",
@@ -313,16 +308,13 @@ export const car = {
 
     interior: [
       {
-        label: "Passenger",
-        value: "Sparco Sprint + harness",
+        label: "Seats",
+        value: "Twin Sparco Sprints",
+        note: "Kirkey is gone. Pair on PCI one-piece fixed mounts.",
       },
       {
-        label: "Driver (now)",
-        value: "Kirkey — being sold",
-      },
-      {
-        label: "Driver (target)",
-        value: "Second Sparco Sprint + frame rail",
+        label: "Seat mounts",
+        value: "PCI one-piece fixed",
       },
       {
         label: "Cage",
@@ -339,8 +331,8 @@ export const car = {
         note: "2017-03, with header stud kit.",
       },
       {
-        label: "Glass",
-        value: "In",
+        label: "Door glass",
+        value: "Out",
       },
       {
         label: "Headlights",
@@ -350,6 +342,28 @@ export const car = {
       {
         label: "Still gone",
         value: "Carpet, door panels, airbag",
+      },
+    ] satisfies SpecLine[],
+
+    steering: [
+      {
+        label: "Wheel",
+        value: "NRG Innovations black 3-spoke",
+        note: "Suede / Alcantara rim, yellow 12-o’clock stripe.",
+      },
+      {
+        label: "Quick-release",
+        value: "NRG on the column",
+        note: "Black hub, white NRG logo on the ring, ball-lock. Horn wired.",
+      },
+      {
+        label: "Airbag",
+        value: "Deleted",
+      },
+      {
+        label: "Pattern",
+        value: "6-bolt",
+        note: "For wheel swaps.",
       },
     ] satisfies SpecLine[],
 
@@ -386,11 +400,29 @@ export const car = {
       "Used pop-ups reinstalled",
       "New gas cap",
       "Manual radiator fan switch",
+      "Twin Sparco Sprints on PCI one-piece fixed mounts (Kirkey gone)",
     ],
-    inProcess: [
-      "Sell the Kirkey",
-      "Driver Sparco Sprint + frame rail",
-    ],
+  },
+
+  lookGoals: {
+    tagline: "Same good vibes — painted flares, hardtop, better wheels",
+    items: [
+      {
+        id: "flares",
+        title: "Paint-matched flares",
+        detail: "Paint the black bolt-on fender flares to Classic Red.",
+      },
+      {
+        id: "hardtop",
+        title: "Color-matched hardtop",
+        detail: "Red hardtop to replace the soft-top look.",
+      },
+      {
+        id: "wheels",
+        title: "New wheels",
+        detail: "Deep-dish, timeless club-sport vibe. Cream Traklites stay until then.",
+      },
+    ] satisfies LookGoal[],
   },
 
   shops: {
@@ -486,22 +518,6 @@ export const car = {
       related: ["CAS", "Auto Sauce Performance"],
     },
   ] satisfies Issue[],
-
-  inProcess: {
-    id: "driver-seat",
-    title: "Driver Sparco Sprint + frame rail",
-    status: "in-process" as const,
-    lane: "in-process" as const,
-    summary:
-      "Passenger already has a Sparco Sprint and harness. Driver is still a Kirkey, which is being sold. Replacement is a second Sprint on a frame rail.",
-    symptom:
-      "Not a diagnosis. Passenger already has a Sprint + harness. Driver is still the Kirkey.",
-    dateCode: "Ford, 2026",
-    ageLabel: "In process",
-    dateNote:
-      "Seat swap is underway. It is not ranked against the receipt-age jobs.",
-    plan: "Sell the Kirkey. Fit a driver Sparco Sprint on a frame rail.",
-  } satisfies InProcessItem,
 
   watch: [
     {
@@ -711,8 +727,9 @@ export const car = {
       date: "2019-04",
       sort: "2019-04",
       era: "scott",
-      title: "Summit AEM E85 pump",
-      detail: "AEM 50-1200. Pump is E85-capable. What is actually in the tank is still open.",
+      title: "Summit AEM 50-1200 pump",
+      detail:
+        "AEM 50-1200. Do not treat that as E85 capability. What is in the tank is still open.",
       source: "receipt",
     },
     {
@@ -721,7 +738,7 @@ export const car = {
       era: "ford",
       title: "Ford’s first pass",
       detail:
-        "G-Racing short shifter. Timing 2° ATDC → 8° BTDC. New battery, R888Rs, Hawk Blues, used pop-ups, new gas cap, manual radiator fan switch. Kirkey listed to sell. Driver Sparco + frame rail in process.",
+        "G-Racing short shifter. Timing 2° ATDC → 8° BTDC. New battery, R888Rs, Hawk Blues, used pop-ups, new gas cap, manual radiator fan switch. Twin Sparco Sprints on PCI one-piece fixed mounts — Kirkey gone. Door glass out. NRG 3-spoke and NRG quick-release on the column, horn wired, airbag deleted.",
       source: "owner",
     },
   ] satisfies TimelineEntry[],
@@ -744,8 +761,8 @@ export const car = {
     },
     {
       id: "fuel",
-      question: "E85 vs pump gas",
-      note: "AEM 50-1200 is an E85 pump. That does not mean the tank is E85. Confirm fuel before any Auto Sauce tune.",
+      question: "What’s in the tank",
+      note: "AEM 50-1200 is on the car from a 2019 Summit order. That is not a green light for E85. Confirm fuel before any Auto Sauce tune.",
     },
     {
       id: "springs",

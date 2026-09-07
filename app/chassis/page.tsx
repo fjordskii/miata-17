@@ -77,8 +77,8 @@ export default function ChassisPage() {
             <p className="mt-2 text-[12px] leading-relaxed text-cream">
               Camber is sheet camber, not a fresh alignment. Corner weights are
               totals for two conditions — the per-wheel ticket is not in the
-              folder. If the car gets corner-weighted again after the seat swap,
-              replace these two totals.
+              folder. If the car gets corner-weighted again after the twin Sparco /
+              PCI mounts, replace these two totals.
             </p>
           </div>
         </aside>
